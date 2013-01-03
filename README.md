@@ -1,10 +1,18 @@
-codeigniter-layout-library
+#codeigniter layout library
 ==========================
-Loading the library in controller
-$this->load->library('layout');
-or
-$this->load->library('layout', array('title_for_layout'=>'test')); //any Layout library variable
+A cakephp like layout library for codeigniter
 
-$this->layout->render('your_view_file', $data);
 
-coming soon ...
+## Example
+==========================
+	$this->layout->render('test', $data);
+	If you use hook you don't need to write any code in controller
+	To pass variables in view
+	$data = array(
+            'title' => 'My Title',
+            'heading' => 'My Heading',
+            'message' => 'My Message',
+            'input'=>array('name'=>'username'),
+        );
+	$this->layout->set($data);
+
