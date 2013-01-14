@@ -2,6 +2,7 @@
 ==========================
 A cakephp like layout library for codeigniter
 
+Documentation: http://wp.me/p2WbR0-7
 
 ## Example
 ==========================
