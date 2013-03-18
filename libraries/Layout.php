@@ -23,6 +23,7 @@ class Layout {
     public $title_separator;    // symble to separate tile if two words
     public $auto_title = true;  // If set to true title will be set by according to method and controller
     public $auto_render = true;
+    public $baseUrl;
 
     /*
      * Class constructor
@@ -34,6 +35,7 @@ class Layout {
         $this->_ci->load->helper('html');
         $this->_ci->config->load('layout');
         $this->config = $this->_ci->config->item('default');
+        $this->baseUrl = $this->_ci->config->slash_item('base_url');
         
         if (!empty($params)) {
             foreach ($params as $key=>$value) {
