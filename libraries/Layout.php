@@ -22,6 +22,7 @@ class Layout {
     public $script_for_layout = array();        // script files/code for the layout
     public $title_separator;    // symble to separate tile if two words
     public $auto_title = true;  // If set to true title will be set by according to method and controller
+    public $auto_render = true;
 
     /*
      * Class constructor
