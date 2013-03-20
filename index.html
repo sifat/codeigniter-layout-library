@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Codeigniter-layout-library : Codeigniter layout / template library" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Codeigniter-layout-library</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/sifat/codeigniter-layout-library">View on GitHub</a>
+
+          <h1 id="project_title">Codeigniter-layout-library</h1>
+          <h2 id="project_tagline">Codeigniter layout / template library</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/sifat/codeigniter-layout-library/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/sifat/codeigniter-layout-library/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Codeigniter is a great tool kit for people who build web sites using PHP. It provides a rich set of libraries for commonly needed tasks. It is a framework with small footprint and performance is good. But there are many things on CI that I don't like. Loading the views is one of them. For example in every controller your code may end up like this</p>
+
+<p><code>
+$this-&gt;load-&gt;view('header');
+$this-&gt;load-&gt;view('menu');
+$this-&gt;load-&gt;view('content', $data);
+$this-&gt;load-&gt;view('footer');
+</code><br>
+So I write library to avoid this kind of code and keep things simple. By using this your controller might look like this</p>
+
+<p><code>
+public function posts($id)
+{
+     $this-&gt;layout-&gt;set($this-&gt;Blog-&gt;posts($id));
+}
+</code><br>
+That's it. No more loading views. For static pages it will be more simple. A empty controller may be enough.</p>
+
+<p>``<br>
+public function pages()
+{</p>
+
+<p>}
+``<br>
+You can download the source code from here <a href="https://github.com/sifat/codeigniter-layout-library">https://github.com/sifat/codeigniter-layout-library</a>
+This library is similar to cakephp layout. Those who are familiar with cakephp will feel right at home.</p>
+
+<p>Installation</p>
+
+<p>Copy the files from this package to the correspoding folder in your application folder. For example, copy config/layout.php to application/config/layout.php. Copy the contents of config/hooks.php file to application/config/hooks.php file</p>
+
+<p><code>
+$hook['post_controller'] = array(
+    'class' =&gt; '',
+    'function' =&gt; 'layout',
+    'filename' =&gt; 'Layout.php',
+    'filepath' =&gt; 'hooks',
+);
+</code><br>
+and set</p>
+
+<p><code>$config['enable_hooks'] = TRUE;</code><br>
+in application/config/config.php file. For more details about hook you can read here. However, this hook part is optional.</p>
+
+<p>Configuration</p>
+
+<p>Edit the config/layout.php as needed.</p>
+
+<p>Layout</p>
+
+<p>Layouts are view files that contain code to represent many views. Anything you want to see in all of your views should be placed in a layout. Views are rendered inside a layout. Folder location of layouts are in application/views/layout. This path can be changed by editing config file. But this must be under views folder.</p>
+
+<p>Layout variables</p>
+
+<p>These variables can be set from controller or from views. Details are below:</p>
+
+<p>$meta: This can be string or array. For details please see codeigniter user guide</p>
+
+<p>$title_for_layout: Title of your page. It generates automatically. But you can overwrite it from controller/views.</p>
+
+<p>$style_for_layout: Contains any external or embedded stylesheet added by add_css() method. Helpful for adding style from controller/view.</p>
+
+<p>$script_for_layout: Contains any external or embedded javascript added by add_js() method. Helpful for adding style from controller/view.</p>
+
+<p>$Layout: Reference to Layout class. Layout class properties and methods are accessible by this variable.</p>
+
+<p><code>
+$Layout-&gt;element('demo');
+</code><br>
+$contents_for_layout: Contains the view. This is where view will be placed.</p>
+
+<p>Eletments: Many applications have small blocks of presentation code that need to be repeated from page to page, sometimes in different places in the layout. These reusable parts are called Elements. Ads, help boxes, navigational controls, extra menus, login forms, and callouts can be used as elements. An element is basically a mini-view that can be included in other views, in layouts, and even within other elements. Variables that are available in the views are also available in elements. You can use elements in following way.</p>
+
+<p><code>
+echo $Layout-&gt;element('demo');
+</code><br>
+Loading the library: you can load the library like this in your controller</p>
+
+<p><code>
+$this-&gt;load-&gt;library('layout');
+</code><br>
+Or</p>
+
+<p><code>
+$this-&gt;load-&gt;library('layout', array('title_for_layout'=&gt;'test')); //any Layout class variable can be set
+</code><br>
+You can also autoload the library.</p>
+
+<p>Setting a layout: If nothing specified layout will be loaded from config. You can set which layout to render by this:</p>
+
+<p><code>
+//controller code. Must be used before render method
+$this-&gt;layout-&gt;layout='your_layout_name';
+</code><br>
+Setting title: Normally your title will be generated by your controller and method name separated by a separator. For example if your controller name is blog and method name is post then your title will be Post | Blog . You can manually set title by this</p>
+
+<p><code>
+//from controller
+$this-&gt;layout-&gt;title_for_layout = 'A cool title';
+//from views
+$Layout-&gt;title_for_layout = 'view';
+</code><br>
+If you want to set title from config file you can do this by setting auto_title false.</p>
+
+<p><code>
+//from controller
+$this-&gt;layout-&gt;auto_title = false;
+//from views
+$Layout-&gt;auto_title = false;
+</code><br>
+Adding meta: For details please visit codeigniter user guide. If no meta specified then default meta from config will be rendered.</p>
+
+<p><code>
+$this-&gt;layout-&gt;meta = array(
+        array(
+            'name' =&gt; 'Content-type',
+            'content' =&gt; 'text/html; charset=utf-8',
+            'type' =&gt; 'equiv'
+        )
+    );
+//from views
+$Layout-&gt;meta = array(
+        array(
+            'name' =&gt; 'Content-type',
+            'content' =&gt; 'text/html; charset=utf-8',
+            'type' =&gt; 'equiv'
+        )
+    );
+</code><br>
+Adding new script: New javascript can be added by add_js method from controller or view. It accepts two parameters
+1. $script: Depending on the value of the $type argument, either a path to the JavaScript file (including file extension) or inline JavaScript code. with $config['js_file_path'] will be added with the file path. If full url with http:// or https:// is provided as file source then $config['js_file_path'] will have no effect.
+2. $type: Either 'link' or 'embed' Use 'import' to include an external JavaScript file or 'embed' to wrap JavaScript code in tags. Default is link.</p>
+
+<p>``<br>
+//controller
+$this-&gt;layout-&gt;add_js('js/jquery.js');
+$this-&gt;layout-&gt;add_js('alert(1)', 'embed');
+$this-&gt;layout-&gt;add_js('<a href="http://code.jquery.com/jquery-1.8.3.min.js'">http://code.jquery.com/jquery-1.8.3.min.js'</a>);</p>
+
+<p>//from view
+$Layout-&gt;add_js('js/jquery.js');
+$Layout-&gt;add_js('alert(1)', 'embed');
+$Layout-&gt;add_js('<a href="http://code.jquery.com/jquery-1.8.3.min.js'">http://code.jquery.com/jquery-1.8.3.min.js'</a>);</p>
+
+<p>``<br>
+Adding new style: You can add external css file or embed style by add_css method. This method accept three parameters:</p>
+
+<p>$style: Depending on the value of the $type argument, either a path to the CSS file (including file extension) or inline CSS code. $config['css_file_path'] will be added with the file path. If full url with http:// or https:// is provided as file source then $config['css_file_path'] will have no effect.
+1. $type: Either 'link', 'import' or 'embed' Use 'link' to include an external CSS file, 'import' to include an external CSS file via the <a href="https://github.com/import" class="user-mention">@import</a> command, or 'embed' to wrap inline CSS code in tags. Default is 'link'.
+2. $media: Set media declaration, like 'all', 'screen', 'print', 'handheld', etc. Default value is 'all'.</p>
+
+<p>``<br>
+//from controller
+$this-&gt;layout-&gt;add_css('css/style.css');
+$this-&gt;layout-&gt;add_css('<a href="https://fbstatic-a.akamaihd.net/rsrc.php/v2/yM/r/_viyxU7WEX-.css'">https://fbstatic-a.akamaihd.net/rsrc.php/v2/yM/r/_viyxU7WEX-.css'</a>);
+$this-&gt;layout-&gt;add_css('p{color: white;}', 'embed', 'screen');</p>
+
+<p>//from view
+$Layout-&gt;add_css('css/style.css');
+$Layout-&gt;add_css('<a href="https://fbstatic-a.akamaihd.net/rsrc.php/v2/yM/r/_viyxU7WEX-.css'">https://fbstatic-a.akamaihd.net/rsrc.php/v2/yM/r/_viyxU7WEX-.css'</a>);
+$Layout-&gt;add_css('p{color: white;}', 'embed');</p>
+
+<p>``<br>
+Render a layout: If you use the hook you need to follow a simple convention. You should place your view file under a folder named after the controller name and file name will be method name with php extension. For example if your controller is welcome and method is index then file structure for view will be application/views/welcome/index.php . This file will be automatically rendered by the library. If you need to add dynamic data to the view you can use the set method like this</p>
+
+<p>``<br>
+$data = array(
+            'title' =&gt; 'My Title',
+            'heading' =&gt; 'My Heading',
+            'message' =&gt; 'My Message',
+            'input'=&gt;array('name'=&gt;'username'),
+        );
+ $this-&gt;layout-&gt;set($data);</p>
+
+<p>``<br>
+If you don't want automatic rendering then you can prevent this by setting auto_render to false.</p>
+
+<p><code>$this-&gt;layout-&gt;auto_render=false;</code><br>
+Now to render a view you can do the following</p>
+
+<p><code>
+$this-&gt;layout-&gt;render('your_view_name'); //just like loading views
+</code><br>
+To add dynamic data to the view/layout you can use set method or just use it as a second parameter of render method. Your controller code now might look like this</p>
+
+<p>``<br>
+$this-&gt;layout-&gt;auto_render=false;
+$data = array(
+            'title' =&gt; 'My Title',
+            'heading' =&gt; 'My Heading',
+            'message' =&gt; 'My Message',
+            'input'=&gt;array('name'=&gt;'username'),
+        );
+$this-&gt;layout-&gt;set($data);
+$this-&gt;layout-&gt;render('your_view_name');</p>
+
+<p>``<br>
+or</p>
+
+<p>``<br>
+$this-&gt;layout-&gt;render('your_view_name', $data);</p>
+
+<p>``    </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Codeigniter-layout-library maintained by <a href="https://github.com/sifat">sifat</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
